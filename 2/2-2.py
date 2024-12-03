@@ -7,6 +7,8 @@ for i in f.readlines():
         tmp.append(int(j))
     list_of_lists.append(tmp)
 
+f.close()
+
 def check_ascending(li) -> bool:
     for i in range(len(li)-1):
         if li[i+1] <= li[i]:
@@ -28,43 +30,30 @@ def check_adj(li) -> bool:
     return True
 
 
+def is_valid(li: list) -> bool:
+    if any(
+        (check_descending(li), check_ascending(li))
+    ):
+        if check_adj(li):
+            return True
+    return False
 
 if __name__ == "__main__":
-    safe = []
+    safe = 0
     for li in list_of_lists:
-        # if either increasing or decreasing
-        if any(
-            (check_descending(li), check_ascending(li))
-        ):
-            if check_adj(li):
-                safe.append(li)
-                continue
+        if is_valid(li):
+            safe += 1
+            continue
     
-        diff_list = []
-        for i in range(len(li)-1):
-            diff_list.append(li[i+1] - li[i])
-        
-        diff_diff_list = []
-        for i in range(len(diff_list)-1):
-            diff_diff_list.append(diff_list[i+1] - diff_list[i])
+        # on remaining lists we just pop one element and check if its alright
+        for i in range(len(li)):
+            tmpli = li.copy()
+            tmpli.pop(i)
+            if is_valid(tmpli):
+                safe += 1
+                break
 
-
-        print(li)
-        print(diff_list)
-
-        in_range = len(list(filter(lambda x: 0 < x <= 3, [abs(x) for x in diff_list])))
-
-        num_pos = len(list(filter(lambda x: x > 0, diff_list)))
-        num_neg = len(list(filter(lambda x: x < 0, diff_list)))
-        
-
-
-
-        errors = len(diff_list) - in_range
-        print(errors)
-        if errors == 1:
-            safe.append(li)
-
-    print(len(safe))
+    
+    print(safe)
 
         
