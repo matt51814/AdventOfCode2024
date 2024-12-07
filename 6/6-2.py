@@ -42,39 +42,97 @@ def find_start_position(txt):
             if txt[i][j] == '^':
                 return (i,j)
 
+def has_cycle(li):
+    if list(set(li)) == li:
+        return False
+    # need to determine if we have a cycle
+    for i in range(len(li)):
+        if len(set(li[i:])) == len(li[i:]) / 2:
+            return True
+    return False
+
+def in_bounds(x,y,map):
+    if 0 <= x <= len(map)-1 and 0 <= y <= len(map[0])-1:
+        return True
+    return False
+
+
+def _change_pos(x,y):
+    x_, y_ = dir_dict[dir]
+    return x+x_, y+y_
+
+
+
+
 
 if __name__ == '__main__':
     with open('6.txt', 'r') as file:
         txt = file.read().splitlines()
     
-    x, y = find_start_position(txt)
+    x_s, y_s = find_start_position(txt)
 
-    dir = 'up'
-    
-    def _change_pos(x,y):
-        x_, y_ = dir_dict[dir]
-        return x+x_, y+y_
-
+    txt = [list(x) for x in txt]
+    obstructions = 0
+    pos = 1
     for i in range(len(txt)):
-        for j in range(len(txt[0])):
+        for j in range(len(txt[i])):
+            print("Position: ", pos, i, j)
+            if txt[i][j] == '#':
+                continue
             txt[i][j] = '#'
-            visited = [[x,y]]
-            while 0 <= x <= len(txt)-1 and 0 <= y <= len(txt[0])-1:
+            dir = 'up'   
+            x, y = x_s, y_s
+
+            visited = []
+            while in_bounds(x,y,txt):
                 print(x,y)
+                visited.append((x,y))
                 x_, y_ = _change_pos(x,y)
-                try:
+                if in_bounds(x_,y_,txt): 
                     if txt[x_][y_] == "#":
                         dir = change_dir[dir]
-                except IndexError:
-                    break
                 x, y = _change_pos(x,y)
-                visited.append([x,y])
+
+                if has_cycle(visited):
+                    print("OBSTRUCTION FOUND")
+                    obstructions += 1
+                    break
+            
             txt[i][j] = '.'
+            pos += 1
 
-                
-    distinct = []
-    for v in visited:
-        if v not in distinct:
-            distinct.append(v)
+    print(obstructions)      
+            # distinct = []
+            # for v in visited:
+            #     if v not in distinct:
+            #         distinct.append(v)
 
-    print(len(distinct))
+            # print(len(distinct))
+
+
+    # txt = [list(x) for x in txt]
+    # # print(txt)
+    # obstructions = 0
+    # # for i in range(len(txt)):
+    # #     for j in range(len(txt[0])):
+    #         x, y = x_s, y_s
+    #         dir = 'up'
+    #         # print(f'# location: ({i},{j})')
+    #         txt[i][j] = '#'
+    #         visited = [(x,y)]
+    #         while 0 <= x <= len(txt)-1 and 0 <= y <= len(txt[0])-1:
+    #             # print(visited[-1])
+    #             iter_count = 1
+    #             x_, y_ = _change_pos(x,y)
+    #             try:
+    #                 if txt[x_][y_] == "#":
+    #                     dir = change_dir[dir]
+    #             except IndexError:
+    #                 break
+    #             x, y = _change_pos(x,y)
+    #             visited.append((x,y))
+    #             if has_cycle(visited):
+    #                 obstructions += 1
+    #                 break
+    #         txt[i][j] = '.'
+
