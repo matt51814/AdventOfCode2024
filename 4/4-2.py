@@ -9,9 +9,6 @@ def create_directional_dict(row,col, wordsearch):
 
     return graph
 
-    
-
-
 if __name__ == '__main__':
     with open('4.txt', 'r') as file:
         txt = file.read().splitlines()

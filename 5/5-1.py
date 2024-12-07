@@ -1,4 +1,4 @@
-import math
+
 if __name__ == '__main__':
     with open('5.txt', 'r') as file:
         txt = file.read().splitlines()
