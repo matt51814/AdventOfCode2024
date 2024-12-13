@@ -42,18 +42,20 @@ def get_areas(li: list[list]):
 
 def get_perimeters(li: list[list]):
     result = []
-    for ex in li:
-        total_boxes = 4 * len(ex)
-        connecting = 0
-        for i in ex:
-            x,y = i
-            for j in ex:
-                if i == j:
-                    continue
-                x_, y_ = j
-                if (x_-x)**2 + (y_-y)**2 < 2:
-                    connecting += 1
-        result.append(total_boxes - connecting)
+    for ex in li[:1]:
+        print(ex)
+        print(len(ex))
+        # total_boxes = 4 * len(ex)
+        # connecting = 0
+        # for i in ex:
+        #     x,y = i
+        #     for j in ex:
+        #         if i == j:
+        #             continue
+        #         x_, y_ = j
+        #         if (x_-x)**2 + (y_-y)**2 < 2:
+        #             connecting += 1
+        # result.append(total_boxes - connecting)
 
     return result
 
