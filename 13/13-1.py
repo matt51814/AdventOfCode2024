@@ -1,21 +1,13 @@
 import re
-from itertools import combinations_with_replacement, product
+from itertools import combinations_with_replacement
 from collections import Counter
 
 if __name__ == "__main__":
     with open('13.txt', 'r') as file:
         txt = file.read().splitlines()
-    print(txt)
-
-
-    numbers = re.findall("\+\d+",txt[0])
-
-
     a_list =[]
     b_list =[]
     prize_list =[]
-
-
     for i in txt:
         numbers = re.findall("\d+", i)
         if 'Button A' in i:
