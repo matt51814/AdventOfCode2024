@@ -77,71 +77,25 @@ if __name__ == '__main__':
             bool_list.append(check_valid(idx, val, li))
         return all(bool_list)
 
-
     def sort(array):
+        numbers_to_add = array.copy()
+        sorted = []
+        tmp_list = []
+
+        # while we still have numbers to add
+        while numbers_to_add:
+            # loop through the numbers remaining to add
+            for i in numbers_to_add:
+                # at each position in the current result list
+                for j in range(len(tmp_list)+1):
+                    tmp_list = sorted.copy()
+                    tmp_list.insert(j,i)
+                    if check_all_valid(tmp_list):
+                        numbers_to_add.remove(i)
+                        sorted = tmp_list.copy()
+                        break
         
-        while not check_all_valid(array):
-            gap = 1
-            # FORWARD PASS ->
-            # Loop from the second element of the array until
-            # the last element
-            for i in range(gap, len(array)):
-                # This is the element we want to position in its
-                # correct place
-                key_item = array[i]
-
-                # Initialize the variable that will be used to
-                # find the correct position of the element referenced
-                # by `key_item`
-                j = i - gap
-                # Run through the list of items (the left
-                # portion of the array) and find the correct position
-                # of the element referenced by `key_item`. Do this only
-                # if `key_item` is smaller than its adjacent values.
-                # while j >= 0 and array[j] > key_item:
-                while j >= 0 and not check_valid(j, array[j], array):
-                    # Shift the value one position to the left
-                    # and reposition j to point to the next element
-                    # (from right to left)
-                    array[j + gap] = array[j]
-                    j -= 1
-
-                # When you finish shifting the elements, you can position
-                # `key_item` in its correct location
-                array[j + gap] = key_item
-
-            # BACKWARD PASS <-
-            # Loop from the second element of the array until
-            # the last element
-            for i in range(0, len(array))[::-1]:
-                # This is the element we want to position in its
-                # correct place
-                key_item = array[i]
-
-                # Initialize the variable that will be used to
-                # find the correct position of the element referenced
-                # by `key_item`
-                j = i + gap
-
-                # Run through the list of items (the left
-                # portion of the array) and find the correct position
-                # of the element referenced by `key_item`. Do this only
-                # if `key_item` is smaller than its adjacent values.
-                # while j >= 0 and array[j] > key_item:
-                while j <= len(array)-1 and not check_valid(j, array[j], array):
-                    # Shift the value one position to the left
-                    # and reposition j to point to the next element
-                    # (from right to left)
-                    array[j - gap] = array[j]
-                    j += 1
-
-                # When you finish shifting the elements, you can position
-                # `key_item` in its correct location
-                array[j - gap] = key_item
-            print(array)
-            time.sleep(2)
-
-        return array
+        return sorted
 
 
     incorrect = []
@@ -152,7 +106,6 @@ if __name__ == '__main__':
             update_bools.append(check_valid(idx,val,_update))
         if not all(update_bools):
             incorrect.append(_update)
-
 
 
     total = 0
