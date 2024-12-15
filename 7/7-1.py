@@ -19,7 +19,7 @@ def check_valid(li):
 
 
 if __name__ == '__main__':
-    with open('7-ex.txt', 'r') as file:
+    with open('7.txt', 'r') as file:
         txt = file.read().splitlines()
 
 
